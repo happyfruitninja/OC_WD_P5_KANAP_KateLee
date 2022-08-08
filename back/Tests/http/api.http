@@ -1,0 +1,11 @@
+@baseUrl = http://localhost:3000/api/products
+
+# Sends back a table with all the elements
+GET {{baseUrl}}/
+
+###
+
+@id = 107fb5b75607497b96722bda5b5049267
+
+# Sends back the element for {product-ID}, the ID of a specific product
+GET {{baseUrl}}/{{id}}
