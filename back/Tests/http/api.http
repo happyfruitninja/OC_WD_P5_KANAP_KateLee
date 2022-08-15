@@ -9,3 +9,21 @@ GET {{baseUrl}}/
 
 # Sends back the element for {product-ID}, the ID of a specific product
 GET {{baseUrl}}/{{id}}
+
+###
+
+POST {{baseUrl}}/order
+content-type: application/json
+
+{
+  "contact": {
+    "firstName": "Bruce",
+    "lastName": "Wayne",
+    "address": "123 Rich Street",
+    "city": "Gotham",
+    "email": "bruce.wayne@gotham.com"
+  },
+  "products": [
+    "107fb5b75607497b96722bda5b504926"
+  ]
+}
