@@ -34,7 +34,6 @@
           <nav>
             <ul>
               <a href="./index.html"><li>Home</li></a>
-              <a href="./product.html"><li>Product</li></a>
               <a href="./cart.html"><li>Cart</li></a>
             </ul>
           </nav>
@@ -47,28 +46,28 @@
       <div class="limitedWidthBlock">
         <section class="item">
           <article>
-            <div class="item__img">
-             <img src="../images/logo.png" alt="Photographie d'un canapé">
+            <div class="item__img"> <!--??.innerHTML = `<img src="${product.imageURL}" alt="${product.altTxt}">` -->
+              <!-- <img src="../images/logo.png" alt="Photographie d'un canapé"> -->
             </div>
             <div class="item__content">
 
-              <div class="item__content__titlePrice">
-                <h1 id="title">Nom du produit</h1>
-                <p>Prix : <span id="price"> 42</span>€</p>
+              <div class="item__content__titlePrice"> <!--??.innerText = product.title-->
+                <h1 id="title"><!-- Nom du produit --></h1>
+                <p>Prix : <span id="price"><!-- 42 --></span>€</p>
               </div>
 
               <div class="item__content__description">
                 <p class="item__content__description__title">Description:</p>
-                <p id="description">Dis enim malesuada risus sapien gravida nulla nisl arcu.</p>
+                <p id="description"><!-- Dis enim malesuada risus sapien gravida nulla nisl arcu. --></p>
               </div>
 
               <div class="item__content__settings">
                 <div class="item__content__settings__color">
                   <label for="color-select">Chose your color:</label>
                   <select name="color-select" id="colors">
-                      <option value="">--Please, select a color --</option>
-                      <option value="vert">vert</option>
-                      <option value="blanc">blanc</option>
+                      <option value="">--Please, select a color --</option><!--it's an array of strings -> selectElement.innerHTML += use for loop for the option(product.colors) tags-->
+<!--                       <option value="vert">vert</option>
+                      <option value="blanc">blanc</option> -->
                   </select>
                 </div>
 
