@@ -10,6 +10,7 @@ for (let param of searchParams) {
     console.log(paramId);
 }
 
+//FIXME - fetch element?
 fetch("http://localhost:3000/api/products/")
   .then((data) => {
     return data.json();
@@ -20,4 +21,20 @@ fetch("http://localhost:3000/api/products/")
 
   url${paramId}
 
-  function getElementByID
+
+  TODO - connect html to the product details
+  const productImage= document.getElementByClassName("item_image");
+  productImage.innerHTML = `<img src="${product.imageURL}" alt="${product.altTxt}">`
+
+  const productTitlePrice = document.getElementByClassName("item__content__titlePrice");
+  for(element of elements) {
+    let productTitlePrice = "";
+    productTitlePrice += `
+    <h1>${product.name}</h1>
+    <p>Prix: ${product.price}</p>
+    `
+  }
+  
+
+  const productDescription = document.getElementByID("description");
+  productDescription.innerHTML = '<p>${product.description}</p>';
