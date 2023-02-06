@@ -30,10 +30,32 @@ function insertProduct(product) {
   const productColor = document.getElementById("colors");
   let optionColors = "";
   for (let color of product.colors) {
-    console.log(color);
     optionColors += `
     <option value="${color}">${color}</option>
     `;
     colors.innerHTML = optionColors;
   }
 }
+
+
+//TODO  user selects color
+let colorPicked = color.addEventListener ("click", () => {
+  //color picked is stored here?
+})
+
+https://www.youtube.com/watch?v=RS-t3TC2iUo
+
+//TODO  user selects quantity
+let quantity = document.getElementById("quantity");
+let quantityPicked = quantity.addEventListener("click", () => {
+  //quantity picked is stored here?
+})
+
+
+
+//TODO eventListener to carry info to Cart page
+const cartButton = document.getElementById("addToCart");
+cartButton.addEventListener("click", () => {
+  //how do i take the stored info with me?
+  //take me to Cart page
+});
