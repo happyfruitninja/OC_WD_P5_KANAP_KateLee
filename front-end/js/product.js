@@ -16,15 +16,21 @@ fetch(`http://localhost:3000/api/products/${productId}`)
 function insertProduct(product) {
   const productImage = document.querySelector(".item__img");
   productImage.innerHTML = `<img src="${product.imageUrl}" alt="${product.altTxt}">`;
+  const productTitlePrice = document.querySelector("item__content__titlePrice");
+  let titlePriceInfo = '';
+  for(let titlePriceInfo of product) {
+    titlePrice
+  }
+  titlePriceInfo.innerHTML = ``
 }
 
 //TODO - connect html to the product details
 /*
-  const productImage = document.querySelector(".item__img");
- 
-  productImage.innerHTML = `<img src="${product.imageURL}" alt="${product.altTxt}">`
-
-  const productTitlePrice = document.getElementsByClassName("item__content__titlePrice");
+  
+  
+  
+  
+  
   for(element of elements) {
     let productTitlePrice = "";
     productTitlePrice += `
