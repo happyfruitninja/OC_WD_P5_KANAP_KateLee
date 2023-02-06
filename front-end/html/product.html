@@ -46,11 +46,12 @@
       <div class="limitedWidthBlock">
         <section class="item">
           <article>
-            <div class="item__img"> <!--??.innerHTML = `<img src="${product.imageURL}" alt="${product.altTxt}">` -->
+            <div class="item__img">
               <!-- <img src="../images/logo.png" alt="Photographie d'un canapé"> -->
             </div>
             <div class="item__content">
-              <!--??.innerText = product.title-->
+
+              <div class="item__content__titlePrice">
                 <h1 id="title"><!-- Nom du produit --></h1>
                 <p>Prix : <span id="price"><!-- 42 --></span>€</p>
               </div>
@@ -64,7 +65,7 @@
                 <div class="item__content__settings__color">
                   <label for="color-select">Chose your color:</label>
                   <select name="color-select" id="colors">
-                      <option value="">--Please, select a color --</option><!--it's an array of strings -> selectElement.innerHTML += use for loop for the option(product.colors) tags-->
+                      <option value="">--Please, select a color --</option>
 <!--                       <option value="vert">vert</option>
                       <option value="blanc">blanc</option> -->
                   </select>

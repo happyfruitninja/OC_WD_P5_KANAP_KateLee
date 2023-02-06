@@ -37,25 +37,38 @@ function insertProduct(product) {
   }
 }
 
+/*
+//TODO  user selects colors
+const colorElement = document.getElementById("colors");
+let colorPicked = colorElement.addEventListener("onchange", () => {
+  console.log("colorPicked");
+});
 
-//TODO  user selects color
-let colorPicked = color.addEventListener ("click", () => {
-  //color picked is stored here?
-})
-
-https://www.youtube.com/watch?v=RS-t3TC2iUo
+//https://www.youtube.com/watch?v=RS-t3TC2iUo
 
 //TODO  user selects quantity
 let quantity = document.getElementById("quantity");
 let quantityPicked = quantity.addEventListener("click", () => {
   //quantity picked is stored here?
-})
-
-
+});
+*/
 
 //TODO eventListener to carry info to Cart page
 const cartButton = document.getElementById("addToCart");
 cartButton.addEventListener("click", () => {
-  //how do i take the stored info with me?
-  //take me to Cart page
+  //TODO get selected color and quantity
+  const colorElement = document.getElementById("colors");
+  console.log(colorElement.value);
+  const quantityElement = document.getElementById("quantity");
+  console.log(quantityElement.value);
+  console.log(productId);
+//TODO get existing cart from local storage(cart) - use JSON.parse to convert string from local storage to JS object(in this case an array)
+//TODO if cart is undefined, set it to an empty array
+//TODO if cart already has item with same id and color, just change quantity
+//TODO else add new item to cart with selected id, color and quantity
+//TODO save cart to local storage - use JSON.stringify to convert object back to string
 });
+//NOTE change quantity string to number before storing into local storage - contains productId, color and quantity selected
+//example - "[]" <-this is json representation of an array
+//example - '[{"productId":"9345678", "color":"yellow", "quantity":2}]' <- jason with an object, this will be the result after call cartArray function
+//use this function JSON.stringify(cart);
