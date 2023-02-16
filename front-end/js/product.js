@@ -10,7 +10,7 @@ fetch(`http://localhost:3000/api/products/${productId}`)
     insertProduct(product);
   });
 
-//TODO - connect html to the product details
+// connect html to the product details
 function insertProduct(product) {
   //  image
   const productImage = document.querySelector(".item__img");
@@ -37,36 +37,38 @@ function insertProduct(product) {
   }
 }
 
-/*
-//TODO  user selects colors
-const colorElement = document.getElementById("colors");
-let colorPicked = colorElement.addEventListener("onchange", () => {
-  console.log("colorPicked");
-});
-
-//https://www.youtube.com/watch?v=RS-t3TC2iUo
-
-//TODO  user selects quantity
-let quantity = document.getElementById("quantity");
-let quantityPicked = quantity.addEventListener("click", () => {
-  //quantity picked is stored here?
-});
-*/
-
-//TODO eventListener to carry info to Cart page
+// eventListener to carry info to Cart page
 const cartButton = document.getElementById("addToCart");
 cartButton.addEventListener("click", () => {
-  //TODO get selected color and quantity
+  //get selected color and quantity
   const colorElement = document.getElementById("colors");
   console.log(colorElement.value);
+  const selectedColor = colorElement.value;
   const quantityElement = document.getElementById("quantity");
+  const selectedQuantity = parseInt(quantityElement.value);
   console.log(quantityElement.value);
   console.log(productId);
-//TODO get existing cart from local storage(cart) - use JSON.parse to convert string from local storage to JS object(in this case an array)
-//TODO if cart is undefined, set it to an empty array
-//TODO if cart already has item with same id and color, just change quantity
-//TODO else add new item to cart with selected id, color and quantity
-//TODO save cart to local storage - use JSON.stringify to convert object back to string
+
+  //get existing cart from local storage(cart) - use JSON.parse to convert string from local storage to JS object(in this case an array)
+  // if cart is undefined, set it to an empty array
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  console.log(cart);
+  // if cart already has item with same id and color, just change quantity
+  const found = cart.find((element) => {
+    return element.color === selectedColor && element.productId === productId;
+  });
+  console.log(found);
+
+  //else add new item to cart with selected id, color and quantity
+  cart.push({
+    productId: productId,
+    color: selectedColor,
+    quantity: selectedQuantity,
+  });
+
+  console.log(cart);
+  //TODO save cart to local storage - use JSON.stringify to convert object back to string
 });
 //NOTE change quantity string to number before storing into local storage - contains productId, color and quantity selected
 //example - "[]" <-this is json representation of an array
