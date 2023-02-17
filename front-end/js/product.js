@@ -69,8 +69,10 @@ cartButton.addEventListener("click", () => {
 
   console.log(cart);
   //TODO save cart to local storage - use JSON.stringify to convert object back to string
+ let cart = JSON.stringify(localStorage.setItem(cart));
 });
 //NOTE change quantity string to number before storing into local storage - contains productId, color and quantity selected
-//example - "[]" <-this is json representation of an array
+
+//example - "[]" <-this is json representation of an empty array
 //example - '[{"productId":"9345678", "color":"yellow", "quantity":2}]' <- jason with an object, this will be the result after call cartArray function
 //use this function JSON.stringify(cart);
