@@ -49,9 +49,8 @@ cartButton.addEventListener("click", () => {
   console.log(quantityElement.value);
   console.log(productId);
 
-  //get existing cart from local storage(cart) - use JSON.parse to convert string from local storage to JS object(in this case an array)
+  //retrieve cart from local storage(cart) - use JSON.parse to convert string from local storage to JS object(in this case an array)
   // if cart is undefined, set it to an empty array
-
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
   console.log(cart);
   // if cart already has item with same id and color, just change quantity
@@ -66,13 +65,25 @@ cartButton.addEventListener("click", () => {
     color: selectedColor,
     quantity: selectedQuantity,
   });
-
   console.log(cart);
+
   //TODO save cart to local storage - use JSON.stringify to convert object back to string
- let cart = JSON.stringify(localStorage.setItem(cart));
+  //const quantityElement = document.getElementById("quantity");
+  
+  // const innerHTMl element to inject selected product detail touse ${} value?
+  const orderDetail = [productId, name, color, price, description, quantity];
+
+  let cartInput = JSON.stringify(orderDetail);
+  
+  localStorage.setItem(cartInput, orderDetail);
+    
+  console.log(cartInput);
 });
 //NOTE change quantity string to number before storing into local storage - contains productId, color and quantity selected
 
 //example - "[]" <-this is json representation of an empty array
 //example - '[{"productId":"9345678", "color":"yellow", "quantity":2}]' <- jason with an object, this will be the result after call cartArray function
 //use this function JSON.stringify(cart);
+
+
+//
