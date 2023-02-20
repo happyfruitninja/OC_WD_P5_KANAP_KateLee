@@ -51,39 +51,37 @@ cartButton.addEventListener("click", () => {
 
   //retrieve cart from local storage(cart) - use JSON.parse to convert string from local storage to JS object(in this case an array)
   // if cart is undefined, set it to an empty array
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  let cart = JSON.parse(window.localStorage.getItem("cart")) || [];
   console.log(cart);
-  // if cart already has item with same id and color, just change quantity
+
   const found = cart.find((element) => {
     return element.color === selectedColor && element.productId === productId;
   });
   console.log(found);
-
-  //else add new item to cart with selected id, color and quantity
-  cart.push({
-    productId: productId,
-    color: selectedColor,
-    quantity: selectedQuantity,
-  });
-  console.log(cart);
+  if (found) {
+    // if cart already has item with same id and color, just change quantity using JS. quantity only adds - changing(adding or subtracting quantity) happens in cart page
+    found.quantity += selectedQuantity;
+  } else {
+    //else add new item to cart with selected id, color and quantity
+    cart.push({
+      productId: productId,
+      color: selectedColor,
+      quantity: selectedQuantity,
+    });
+    console.log(cart);
+  }
 
   //TODO save cart to local storage - use JSON.stringify to convert object back to string
   //const quantityElement = document.getElementById("quantity");
-  
-  // const innerHTMl element to inject selected product detail touse ${} value?
-  const orderDetail = [productId, name, color, price, description, quantity];
 
-  let cartInput = JSON.stringify(orderDetail);
-  
-  localStorage.setItem(cartInput, orderDetail);
-    
-  console.log(cartInput);
+  // const innerHTMl element to inject selected product detail touse ${} value?
+
+  window.localStorage.setItem("cart", JSON.stringify(cart));
 });
 //NOTE change quantity string to number before storing into local storage - contains productId, color and quantity selected
 
 //example - "[]" <-this is json representation of an empty array
 //example - '[{"productId":"9345678", "color":"yellow", "quantity":2}]' <- jason with an object, this will be the result after call cartArray function
 //use this function JSON.stringify(cart);
-
 
 //

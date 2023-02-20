@@ -1,0 +1,2 @@
+//TODO insert cartItem cards into the page using loop (through the cart array). keep in mind each item has productId and I need to fetch to grab product details such as description and name (use fetch API from backend) Similar to milestone 3
+//NOTE total quantity and total price (TIP: as you are iterating through -> update the running totals on the page not on localstorage/backend)
