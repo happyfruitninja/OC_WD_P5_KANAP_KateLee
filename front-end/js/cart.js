@@ -10,13 +10,28 @@ fetch(`http://localhost:3000/api/products/${productId}`)
     return data.json();
   })
   .then((cartItem) => {
-    insertProduct(cartItem);
+    insertCart(cartItem);
   });
 
 //connect html to the items in cart
-function insertCart(cartItem) {
-  //    image
-  //    description
-  //    product name, color and price  
-  //    product quantity
+const sectionCartItem = document.getElementById("cart__items");
+const cartPrice = document.querySelector(".cart__price");
+
+function insertCart(cartItems) {
+  for (let cart of cartItems) {
+    const cartArticle = document.createElement("article");
+    cartArticle.classList.add("cart__item");
+    let cartItemCards = "";
+    //    image
+    //get class cart__item__img and and replace the image using placeholder
+    const cartImage = document.querySelector(".cart__item__img");
+    cartImage.cartImage.innerHTML = `<img src="${product.imageUrl}" alt="${product.altText}">`;
+    //    description
+    //    product name, color and price
+    //    product quantity
+  }
+  sectionCartItem.innerHTML = cartItemCards;
 }
+
+
+const cartImage = document.querySelector("cart__item__img");
