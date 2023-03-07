@@ -11,7 +11,6 @@ fetch("http://localhost:3000/api/products/")
 
 //connect html to the items in cart
 const sectionCartItem = document.getElementById("cart__items");
-const cartPrice = document.querySelector(".cart__price");
 
 function insertCart(products) {
   let cartItemCards = "";
@@ -23,12 +22,13 @@ function insertCart(products) {
       return product._id === cartItem.productId;
     });
     console.log(found);
-    //same as const found = products.find(product => product.productId === cartItem.productId); used where there is one line of code
 
     const cartArticle = document.createElement("article");
     cartArticle.classList.add("cart__item");
     cartArticle.dataset.id = found._id;
     cartArticle.dataset.color = cartItem.color;
+
+    //same as const ie) found = products.find(product => product.productId === cartItem.productId); used where there is one line of code
 
     cartArticle.innerHTML = `
             <div class="cart__item__img">
@@ -52,21 +52,27 @@ function insertCart(products) {
             </div>        
     `;
 
-    //TODO update total price and total quantity for current cartItem - we need a number to do arithmatic calculation ie) const selectedQuantity = parseInt(quantityElement.value);
+    sectionCartItem.appendChild(cartArticle);
+
+    // TODO update total price and total quantity for current cartItem - we need a number to do arithmatic calculation ie) const selectedQuantity = parseInt(quantityElement.value);
+
+    const cartQuantity = parseInt(cartItem.quantity); //convert string quantity in cartItem into number
+    const totalQuantity = document.getElementById("totalQuantity"); //get span element with #totalQuantity
+    totalQuantity.innerText = <span id="totalQuantity">${cartQuantity}</span>; //
+    
 
     //TODOget the current total off the page + partInt the number string
     //  update the total number on the page with current cartItem quantity
-    //  use innerText to inject the updated total number  between the <span></span> + artItem.quantity * found.price
+    //  use innerText to inject the updated total number  between the <span></span> + cartItem.quantity * found.price
     //  repeat process for price
+
     // const selectedQuantity = parseInt(.value);
     // const selectedPrice = parseInt(priceElement.value);
     // const totalQuantity = 0;
     // const totalPrice = 0;
 
-    sectionCartItem.appendChild(cartArticle);
+    //TODOadd eventListener
+    //parseInt -
+    // .innerText
   }
 }
-
-//TODOadd eventListener
-//parseInt -
-// .innerText
