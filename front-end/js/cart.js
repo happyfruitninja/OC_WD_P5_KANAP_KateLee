@@ -57,9 +57,17 @@ function insertCart(products) {
     // TODO update total price and total quantity for current cartItem - we need a number to do arithmatic calculation ie) const selectedQuantity = parseInt(quantityElement.value);
 
     const cartQuantity = parseInt(cartItem.quantity); //convert string quantity in cartItem into number
-    const totalQuantity = document.getElementById("totalQuantity"); //get span element with #totalQuantity
-    totalQuantity.innerText = <span id="totalQuantity">${cartQuantity}</span>; //
-    
+    const quantityElement = document.getElementById("totalQuantity"); //get span element with #totalQuantity
+    let total = '';
+    for (let number of totalQuantity) {
+      total += `
+      <span id="totalQuantity">${cartQuantity}</span>
+      `;
+      totalQuantity.innerText = total;
+    }
+
+
+    //totalQuantity.innerText = '<span id="totalQuantity">${cartQuantity}</span>';
 
     //TODOget the current total off the page + partInt the number string
     //  update the total number on the page with current cartItem quantity
