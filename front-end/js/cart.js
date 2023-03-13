@@ -56,28 +56,30 @@ function insertCart(products) {
 
     // TODO update total price and total quantity for current cartItem - we need a number to do arithmatic calculation ie) const selectedQuantity = parseInt(quantityElement.value);
 
-    const cartQuantity = parseInt(cartItem.quantity); //convert string quantity in cartItem into number
-    const quantityElement = document.getElementById("totalQuantity"); //get span element with #totalQuantity
-    let total = '';
-    for (let number of totalQuantity) {
-      total += `
-      <span id="totalQuantity">${cartQuantity}</span>
-      `;
-      totalQuantity.innerText = total;
-    }
-
-
-    //totalQuantity.innerText = '<span id="totalQuantity">${cartQuantity}</span>';
-
+    //  convert string quantity in cartItem into number
     //TODOget the current total off the page + partInt the number string
     //  update the total number on the page with current cartItem quantity
-    //  use innerText to inject the updated total number  between the <span></span> + cartItem.quantity * found.price
+    //get span element with #totalQuantity
+
+    let currentQuantity =
+      parseInt(document.getElementById("totalQuantity").innerText) || "";
+
+    currentQuantity = currentQuantity + cartItem.quantity;
+
+    totalQuantity.innerText = currentQuantity;
+    console.log(totalQuantity);
+
+    //  use innerText to inject the updated total number between the <span></span> + cartItem.quantity * found.price
     //  repeat process for price
 
-    // const selectedQuantity = parseInt(.value);
-    // const selectedPrice = parseInt(priceElement.value);
-    // const totalQuantity = 0;
-    // const totalPrice = 0;
+    let price = parseInt(document.getElementById("totalPrice").innerText) || "";
+    price += found.price;
+
+    const currentPrice = currentQuantity * price;
+    totalPrice.innerText = currentPrice;
+    //FIXME TODO currently it's adding the ([0] * totalQuantity * found.price) + ([1] * totalQuantity * found.price)
+    // TODO for loop ? to go through each items and get total price for each item and then totalPrice needs to show the total of all totalPrice
+    console.log(totalPrice);
 
     //TODOadd eventListener
     //parseInt -
