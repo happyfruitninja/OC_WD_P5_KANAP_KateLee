@@ -56,17 +56,20 @@ function insertCart(products) {
 
     itemQuantity.addEventListener("change", () => {
       let updatedQuantity = "";
-      updatedQuantity = updatedQuantity + itemQuantity.value;
+      updatedQuantity += itemQuantity.value;
       console.log(updatedQuantity);
     });
-
+    //FIXME need to convert updatedQuantity into string in order to store in local storage
+    //FIXME need to replace currentQuantity with updatedQuantity
     //----------------------------------------------
 
     //TODO add a click eventListener to delete <p> tag
     //   note : similar process as above
     const deleteItem = cartArticle.querySelector(".deleteItem");
     deleteItem.addEventListener("click", () => {
-     cartArticle.remove();
+      cartArticle.remove();
+      //FIXME do I have to use closest? Right now deleting works
+      // deleteItem.closest("article").remove();
     });
 
     //---------------------------------------------
@@ -95,4 +98,19 @@ function insertCart(products) {
   }
 }
 
-//TODO new function : this will change the handle to change eventListener. Same is required for delete
+//TODO new function : this will change the handle to change. Same is required for delete
+//FIXME what does "change the handle mean"?
+
+// function() {
+
+//
+
+//------------------------------------------
+// const firstName = document.getElementById("firstName");
+// const lastName = document.getElementById("lastName");
+// const address = document.getElementById("address");
+// const city = document.getElementById("city");
+//
+
+// const regExName = /^[a-z ,.'-]+$/i;
+// const regExAdd = ^[a-zA-Z0-9\s,'-]*$;

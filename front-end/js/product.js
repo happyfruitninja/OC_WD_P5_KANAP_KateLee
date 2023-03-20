@@ -71,7 +71,7 @@ cartButton.addEventListener("click", () => {
     console.log(cart);
   }
 
-  //TODO save cart to local storage - use JSON.stringify to convert object back to string
+  //save cart to local storage - use JSON.stringify to convert object back to string
   //const quantityElement = document.getElementById("quantity");
 
   // const innerHTMl element to inject selected product detail touse ${} value?
