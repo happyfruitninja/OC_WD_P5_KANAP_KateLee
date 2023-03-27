@@ -49,27 +49,34 @@ function insertCart(products) {
               </div>
             </div>        
     `;
-    //TODO add a change eventListener to the input field for quantity
-    //   note : to use querySelector -> cartArticle.querySelector(".itemQuantity")
+    //add a change eventListener to the input field for quantity
 
     let itemQuantity = cartArticle.querySelector(".itemQuantity");
 
-    itemQuantity.addEventListener("change", () => {
-      let updatedQuantity = "";
-      updatedQuantity += itemQuantity.value;
-      console.log(updatedQuantity);
-    });
-    //FIXME need to convert updatedQuantity into string in order to store in local storage
-    //FIXME need to replace currentQuantity with updatedQuantity
-    //----------------------------------------------
+    itemQuantity.addEventListener("change", ($event) => {
+      const clickedElement = $event.target;
+      const newQuantity = parseInt(clickedElement.value);
 
-    //TODO add a click eventListener to delete <p> tag
+      console.log(newQuantity);
+      //get previous the item and then quantity from local storage
+      //cartArticle.dataset.id
+      const cartItemToChange = getCartItem(
+        clickedElement.closest("article").dataset.id
+      );
+      console.log(cartItemToChange);
+      updateTotalQuantity(newQuantity - cartItemToChange.quantity);
+      //TODO update the total price - create updateTotalPrice function same as we create totalQuantity (highlight -> refactor -> global)
+      //TODO update local storage with newQuanity for newCartItem
+      
+    });
+
+ 
+    //add a click eventListener to delete <p> tag
     //   note : similar process as above
     const deleteItem = cartArticle.querySelector(".deleteItem");
     deleteItem.addEventListener("click", () => {
       cartArticle.remove();
-      //FIXME do I have to use closest? Right now deleting works
-      // deleteItem.closest("article").remove();
+    
     });
 
     //---------------------------------------------
@@ -82,12 +89,7 @@ function insertCart(products) {
     //  update the total number on the page with current cartItem quantity
     //get span element with #totalQuantity
 
-    let currentQuantity =
-      parseInt(document.getElementById("totalQuantity").innerText) || 0;
-    currentQuantity += cartItem.quantity;
-
-    totalQuantity.innerText = currentQuantity;
-    console.log(totalQuantity);
+    updateTotalQuantity(cartItem.quantity);
 
     let currentPrice =
       parseInt(document.getElementById("totalPrice").innerText) || 0;
@@ -97,7 +99,24 @@ function insertCart(products) {
     console.log(totalPrice);
   }
 }
+function getCartItem(productId) {
+  let cart = JSON.parse(window.localStorage.getItem("cart")) || [];
+  console.log(productId);
+  console.log(cart);
+  const found = cart.find((cartItem) => {
+    return cartItem.productId === productId;
+  });
+  return found;
+}
 
+function updateTotalQuantity(quantity) {
+  let currentQuantity =
+    parseInt(document.getElementById("totalQuantity").innerText) || 0;
+  currentQuantity += quantity;
+
+  totalQuantity.innerText = currentQuantity;
+  console.log(totalQuantity);
+}
 //TODO new function : this will change the handle to change. Same is required for delete
 //FIXME what does "change the handle mean"?
 
@@ -112,5 +131,5 @@ function insertCart(products) {
 // const city = document.getElementById("city");
 //
 
-// const regExName = /^[a-z ,.'-]+$/i;
-// const regExAdd = ^[a-zA-Z0-9\s,'-]*$;
+const regExName = /^[a-z ,.'-]+$/i;
+const regExAdd = /^[a-zA-Z0-9\s,'-]*$/;
