@@ -50,33 +50,33 @@ function insertCart(products) {
             </div>        
     `;
     //add a change eventListener to the input field for quantity
-
     let itemQuantity = cartArticle.querySelector(".itemQuantity");
 
     itemQuantity.addEventListener("change", ($event) => {
+      let cart = JSON.parse(window.localStorage.getItem("cart")) || [];
       const clickedElement = $event.target;
       const newQuantity = parseInt(clickedElement.value);
 
+      const productId = clickedElement.closest("article").dataset.id;
+      const cartItemToChange = getCartItem(cart, productId);
       console.log(newQuantity);
-      //get previous the item and then quantity from local storage
-      //cartArticle.dataset.id
-      const cartItemToChange = getCartItem(
-        clickedElement.closest("article").dataset.id
-      );
-      console.log(cartItemToChange);
-      updateTotalQuantity(newQuantity - cartItemToChange.quantity);
-      //TODO update the total price - create updateTotalPrice function same as we create totalQuantity (highlight -> refactor -> global)
-      //TODO update local storage with newQuanity for newCartItem
-      
+
+      const changedQuantity = newQuantity - cartItemToChange.quantity;
+      //65-71 use the same format for delete eventlistner
+      updateTotalQuantity(changedQuantity);
+      cartItemToChange.quantity = newQuantity;
+      //update the total price - create updateTotalPrice function same as we create totalQuantity (highlight -> refactor -> global)
+      updateTotalPrice(changedQuantity, found.price);
+      localStorage.setItem("cart", JSON.stringify(cart));
     });
 
- 
     //add a click eventListener to delete <p> tag
-    //   note : similar process as above
     const deleteItem = cartArticle.querySelector(".deleteItem");
+
     deleteItem.addEventListener("click", () => {
       cartArticle.remove();
-    
+      //TODO remove item from local storage
+      //TODO update totals using the functions already present
     });
 
     //---------------------------------------------
@@ -90,17 +90,27 @@ function insertCart(products) {
     //get span element with #totalQuantity
 
     updateTotalQuantity(cartItem.quantity);
-
-    let currentPrice =
-      parseInt(document.getElementById("totalPrice").innerText) || 0;
-    currentPrice += found.price * cartItem.quantity;
-    totalPrice.innerText = currentPrice;
-
-    console.log(totalPrice);
+    updateTotalPrice(cartItem.quantity, found.price);
   }
+
+  //add a click eventListener to delete <p> tag
+  //   note : similar process as above
+
+  //---------------------------------------------
+  //sectionCartItem.appendChild(cartArticle);
+
+  //update total price and total quantity for current cartItem - we need a number to do arithmatic calculation ie) const selectedQuantity = parseInt(quantityElement.value);
+
+  //  convert string quantity in cartItem into number
+  // get the current total off the page + partInt the number string
+  //  update the total number on the page with current cartItem quantity
+  //get span element with #totalQuantity
+
+  // updateTotalQuantity(cartItem.quantity);
+  // updateTotalPrice(found.price);
 }
-function getCartItem(productId) {
-  let cart = JSON.parse(window.localStorage.getItem("cart")) || [];
+
+function getCartItem(cart, productId) {
   console.log(productId);
   console.log(cart);
   const found = cart.find((cartItem) => {
@@ -117,6 +127,16 @@ function updateTotalQuantity(quantity) {
   totalQuantity.innerText = currentQuantity;
   console.log(totalQuantity);
 }
+
+function updateTotalPrice(quantity, price) {
+  let currentPrice =
+    parseInt(document.getElementById("totalPrice").innerText) || 0;
+
+  currentPrice += price * quantity;
+  totalPrice.innerText = currentPrice;
+  console.log(currentPrice);
+}
+
 //TODO new function : this will change the handle to change. Same is required for delete
 //FIXME what does "change the handle mean"?
 
