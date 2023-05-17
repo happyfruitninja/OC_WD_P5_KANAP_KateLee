@@ -73,10 +73,26 @@ function insertCart(products) {
     //add a click eventListener to delete <p> tag
     const deleteItem = cartArticle.querySelector(".deleteItem");
 
-    deleteItem.addEventListener("click", () => {
-      cartArticle.remove();
+    deleteItem.addEventListener("click", ($event) => {
+      const deleteLink = $event.target;
+      const elementToDelete = deleteLink.closest("article");
+      elementToDelete.remove();
       //TODO remove item from local storage
+      //NOTE get productId and color from data fields in article tag
+
+      cartArticle.setAttribute("data-id", "{product-ID}");
+      cartArticle.setAttribute("data-color", "{product-color}");
+      const dataId = elementToDelete.data - id;
+      const dataColor = elementToDelete.data - color;
+     
+
+      if (cartItem.productId === dataId && cartItem.color === dataColor) {
+        localStorage.removeItem(cartItem);
+      }
+
       //TODO update totals using the functions already present
+      //   updateTotalQuantity(cartItem.quantity);
+      // updateTotalPrice(cartItem.quantity, found.price);
     });
 
     //---------------------------------------------
@@ -137,14 +153,8 @@ function updateTotalPrice(quantity, price) {
   console.log(currentPrice);
 }
 
-//TODO new function : this will change the handle to change. Same is required for delete
-//FIXME what does "change the handle mean"?
-
-// function() {
-
-//
-
 //------------------------------------------
+//form
 // const firstName = document.getElementById("firstName");
 // const lastName = document.getElementById("lastName");
 // const address = document.getElementById("address");
