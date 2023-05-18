@@ -80,11 +80,10 @@ function insertCart(products) {
       //TODO remove item from local storage
       //NOTE get productId and color from data fields in article tag
 
-      cartArticle.setAttribute("data-id", "{product-ID}");
-      cartArticle.setAttribute("data-color", "{product-color}");
-      const dataId = elementToDelete.data - id;
-      const dataColor = elementToDelete.data - color;
-     
+      
+      const dataId = elementToDelete.dataset.id;
+      const dataColor = elementToDelete.dataset.color;
+     console.log(`dataID = ${dataID}, dataColor = ${dataColor}`);
 
       if (cartItem.productId === dataId && cartItem.color === dataColor) {
         localStorage.removeItem(cartItem);
