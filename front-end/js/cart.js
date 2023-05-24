@@ -11,7 +11,6 @@ fetch("http://localhost:3000/api/products/")
 
 //connect html to the items in cart
 const sectionCartItem = document.getElementById("cart__items");
-
 function insertCart(products) {
   let cartItemCards = "";
   let cart = JSON.parse(window.localStorage.getItem("cart")) || [];
@@ -22,12 +21,10 @@ function insertCart(products) {
       return product._id === cartItem.productId;
     });
     console.log(found);
-
     const cartArticle = document.createElement("article");
     cartArticle.classList.add("cart__item");
     cartArticle.dataset.id = found._id;
     cartArticle.dataset.color = cartItem.color;
-
     cartArticle.innerHTML = `
             <div class="cart__item__img">
               <img src="${found.imageUrl}" alt="${found.altTxt}">
@@ -51,18 +48,21 @@ function insertCart(products) {
     `;
     //add a change eventListener to the input field for quantity
     let itemQuantity = cartArticle.querySelector(".itemQuantity");
-
     itemQuantity.addEventListener("change", ($event) => {
       let cart = JSON.parse(window.localStorage.getItem("cart")) || [];
       const clickedElement = $event.target;
       const newQuantity = parseInt(clickedElement.value);
-
+      //FIXME need to get dataset.color from closest article and ask to getCartItem. Do this first and then delete item
       const productId = clickedElement.closest("article").dataset.id;
+      const productColor = clickedElement.closest("article").dataset.color;
+      if (cartItem.productId === productId && cartItem.color === productColor) {
+        return cartItem.productId;
+      }
+      //delete from localStorage after getCartItem
       const cartItemToChange = getCartItem(cart, productId);
       console.log(newQuantity);
-
       const changedQuantity = newQuantity - cartItemToChange.quantity;
-      //65-71 use the same format for delete eventlistner
+      //use the same format for delete eventlistner
       updateTotalQuantity(changedQuantity);
       cartItemToChange.quantity = newQuantity;
       //update the total price - create updateTotalPrice function same as we create totalQuantity (highlight -> refactor -> global)
@@ -74,24 +74,35 @@ function insertCart(products) {
     const deleteItem = cartArticle.querySelector(".deleteItem");
 
     deleteItem.addEventListener("click", ($event) => {
+      let cart = JSON.parse(window.localStorage.getItem("cart")) || [];
+      //remove item from browser
       const deleteLink = $event.target;
       const elementToDelete = deleteLink.closest("article");
       elementToDelete.remove();
-      //TODO remove item from local storage
-      //NOTE get productId and color from data fields in article tag
 
-      
+      //remove item from local storage
       const dataId = elementToDelete.dataset.id;
       const dataColor = elementToDelete.dataset.color;
-     console.log(`dataID = ${dataID}, dataColor = ${dataColor}`);
+      console.log(`dataID = ${dataId}, dataColor = ${dataColor}`);
+      let quantityDeleted;
+      const filtered = cart.filter((cartItem) => {
+        let canKeep;
+        if (cartItem.productId === dataId && cartItem.color === dataColor) {
+          quantityDeleted = cartItem.quantity;
+          canKeep = false;
+        } else {
+          canKeep = true;
+        }
+        return canKeep;
+      });
+      console.log(filtered);
+      localStorage.setItem("cart", JSON.stringify(filtered));
 
-      if (cartItem.productId === dataId && cartItem.color === dataColor) {
-        localStorage.removeItem(cartItem);
-      }
+      //update totals using the functions already present
 
-      //TODO update totals using the functions already present
-      //   updateTotalQuantity(cartItem.quantity);
-      // updateTotalPrice(cartItem.quantity, found.price);
+      updateTotalQuantity(-quantityDeleted);
+      //FIXME update total price when an item is deleted
+      updateTotalPrice(cartItem.quantity, found.price);
     });
 
     //---------------------------------------------
