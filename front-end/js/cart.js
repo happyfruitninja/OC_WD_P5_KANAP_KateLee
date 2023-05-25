@@ -57,10 +57,10 @@ function insertCart(products) {
       //FIXME need to get dataset.color from closest article and ask to getCartItem. Do this first and then delete item
       const productId = clickedElement.closest("article").dataset.id;
       const productColor = clickedElement.closest("article").dataset.color;
-      const matchingItem = getCartItem();
+      const matchingItem = getCartItem(cart, productId, productColor);
 
       //delete from localStorage after getCartItem
-      const cartItemToChange = getCartItem(cart, productId);
+      const cartItemToChange = getCartItem(cart, productId, productColor);
       console.log(newQuantity);
       const changedQuantity = newQuantity - cartItemToChange.quantity;
 
@@ -105,7 +105,7 @@ function insertCart(products) {
 
       //FIXME update total price when an item is deleted
 
-      updateTotalPrice(cartItem.quantity, found.price);
+      updateTotalPrice(quantityDeleted, -found.price);
     });
 
     sectionCartItem.appendChild(cartArticle);
@@ -121,7 +121,7 @@ function insertCart(products) {
   }
 }
 
-function getCartItem(cart, productId) {
+function getCartItem(cart, productId, productColor) {
   console.log(productId);
   console.log(productColor);
   console.log(cart);
@@ -156,5 +156,21 @@ function updateTotalPrice(quantity, price) {
 // const city = document.getElementById("city");
 //
 
-const regExName = /^[a-z ,.'-]+$/i;
-const regExAdd = /^[a-zA-Z0-9\s,'-]*$/;
+const expNames = /^[a-zA-Z._-]+$/;
+const expEmail = /\S+@\S+\.\S+/g;
+const expAdd = /^[a-zA-Z0-9._-]+$/;
+
+document.getElementById("firstName").addEventListener("change", ($event) => {
+  //TODO reset the error for firstName
+  //TODO test firstName input value
+  //TODO set error message if test fails
+});
+
+document.getElementById("order").addEventListener("click", ($event) => {
+  const order = $event.target;
+  //TODO when the user click order button check all inputs are validated
+  //TODO fetch API to submit order to back-end (POST)
+  //TODO get orderId from the response
+  //TODO clear out the cart
+  //TODO redirect to the confirmation page sending the orderId in the Url
+});
