@@ -46,25 +46,28 @@ function insertCart(products) {
               </div>
             </div>        
     `;
+
     //add a change eventListener to the input field for quantity
     let itemQuantity = cartArticle.querySelector(".itemQuantity");
     itemQuantity.addEventListener("change", ($event) => {
       let cart = JSON.parse(window.localStorage.getItem("cart")) || [];
       const clickedElement = $event.target;
       const newQuantity = parseInt(clickedElement.value);
+
       //FIXME need to get dataset.color from closest article and ask to getCartItem. Do this first and then delete item
       const productId = clickedElement.closest("article").dataset.id;
       const productColor = clickedElement.closest("article").dataset.color;
-      if (cartItem.productId === productId && cartItem.color === productColor) {
-        return cartItem.productId;
-      }
+      const matchingItem = getCartItem();
+
       //delete from localStorage after getCartItem
       const cartItemToChange = getCartItem(cart, productId);
       console.log(newQuantity);
       const changedQuantity = newQuantity - cartItemToChange.quantity;
+
       //use the same format for delete eventlistner
       updateTotalQuantity(changedQuantity);
       cartItemToChange.quantity = newQuantity;
+
       //update the total price - create updateTotalPrice function same as we create totalQuantity (highlight -> refactor -> global)
       updateTotalPrice(changedQuantity, found.price);
       localStorage.setItem("cart", JSON.stringify(cart));
@@ -72,7 +75,6 @@ function insertCart(products) {
 
     //add a click eventListener to delete <p> tag
     const deleteItem = cartArticle.querySelector(".deleteItem");
-
     deleteItem.addEventListener("click", ($event) => {
       let cart = JSON.parse(window.localStorage.getItem("cart")) || [];
       //remove item from browser
@@ -99,13 +101,13 @@ function insertCart(products) {
       localStorage.setItem("cart", JSON.stringify(filtered));
 
       //update totals using the functions already present
-
       updateTotalQuantity(-quantityDeleted);
+
       //FIXME update total price when an item is deleted
+
       updateTotalPrice(cartItem.quantity, found.price);
     });
 
-    //---------------------------------------------
     sectionCartItem.appendChild(cartArticle);
 
     //update total price and total quantity for current cartItem - we need a number to do arithmatic calculation ie) const selectedQuantity = parseInt(quantityElement.value);
@@ -114,33 +116,17 @@ function insertCart(products) {
     // get the current total off the page + partInt the number string
     //  update the total number on the page with current cartItem quantity
     //get span element with #totalQuantity
-
     updateTotalQuantity(cartItem.quantity);
     updateTotalPrice(cartItem.quantity, found.price);
   }
-
-  //add a click eventListener to delete <p> tag
-  //   note : similar process as above
-
-  //---------------------------------------------
-  //sectionCartItem.appendChild(cartArticle);
-
-  //update total price and total quantity for current cartItem - we need a number to do arithmatic calculation ie) const selectedQuantity = parseInt(quantityElement.value);
-
-  //  convert string quantity in cartItem into number
-  // get the current total off the page + partInt the number string
-  //  update the total number on the page with current cartItem quantity
-  //get span element with #totalQuantity
-
-  // updateTotalQuantity(cartItem.quantity);
-  // updateTotalPrice(found.price);
 }
 
 function getCartItem(cart, productId) {
   console.log(productId);
+  console.log(productColor);
   console.log(cart);
   const found = cart.find((cartItem) => {
-    return cartItem.productId === productId;
+    return cartItem.productId === productId && cartItem.color === productColor;
   });
   return found;
 }
@@ -163,7 +149,6 @@ function updateTotalPrice(quantity, price) {
   console.log(currentPrice);
 }
 
-//------------------------------------------
 //form
 // const firstName = document.getElementById("firstName");
 // const lastName = document.getElementById("lastName");
