@@ -149,25 +149,34 @@ function updateTotalPrice(quantity, price) {
   console.log(currentPrice);
 }
 
-//form
-// const firstName = document.getElementById("firstName");
-// const lastName = document.getElementById("lastName");
-// const address = document.getElementById("address");
-// const city = document.getElementById("city");
-//
+const expName = /^[a-zA-Z\s_-]+$/;
+const expEmail =
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+const expAdd = /^[a-zA-Z0-9\s,!.'_-]+$/;
+const error = document.getElementById("firstNameErrorMsg");
 
-const expNames = /^[a-zA-Z._-]+$/;
-const expEmail = /\S+@\S+\.\S+/g;
-const expAdd = /^[a-zA-Z0-9._-]+$/;
+//firstName field
+firstName.addEventListener("change", ($event) => {
+  //TODO reset the any previous error
+  const firstName = document.getElementById("firstName");
+  firstName.setAttribute("onclick", "this.value =''");
+  error.innerHTML = "";
 
-document.getElementById("firstName").addEventListener("change", ($event) => {
-  //TODO reset the error for firstName
   //TODO test firstName input value
-  //TODO set error message if test fails
+  firstName.addEventListener("input", (e) => {
+    const target = e.target.value;
+    const inputTest = expName.test(target);
+    if (inputTest) {
+      firstName.value = target;
+      //TODO set error message if test fails
+    } else {
+      error.innerHTML = "An error has occured";
+    }
+  });
 });
 
 document.getElementById("order").addEventListener("click", ($event) => {
-  const order = $event.target;
+  const submit = $event.target;
   //TODO when the user click order button check all inputs are validated
   //TODO fetch API to submit order to back-end (POST)
   //TODO get orderId from the response
