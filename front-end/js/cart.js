@@ -153,26 +153,45 @@ const expName = /^[a-zA-Z\s_-]+$/;
 const expEmail =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 const expAdd = /^[a-zA-Z0-9\s,!.'_-]+$/;
-const error = document.getElementById("firstNameErrorMsg");
 
 //firstName field
 firstName.addEventListener("change", ($event) => {
-  //TODO reset the any previous error
   const firstName = document.getElementById("firstName");
-  firstName.setAttribute("onclick", "this.value =''");
-  error.innerHTML = "";
+  const firstNameValue = firstName.value;
+  const error = document.getElementById("firstNameErrorMsg");
+
+  //TODO reset any previous error
+  error.innerHTML = ""; // FIXME I DON'T UNDERSTAND
 
   //TODO test firstName input value
-  firstName.addEventListener("input", (e) => {
-    const target = e.target.value;
-    const inputTest = expName.test(target);
-    if (inputTest) {
-      firstName.value = target;
-      //TODO set error message if test fails
-    } else {
-      error.innerHTML = "An error has occured";
-    }
-  });
+  if (expName.test(firstNameValue)) {
+    firstName.value = firstNameValue;
+    error.innerHTML = "";
+
+    //TODO set error message if test fails
+  } else {
+    error.innerHTML = "Please enter valid first name";
+  }
+});
+
+//LastName field
+lastName.addEventListener("change", ($event) => {
+  const lastName = document.getElementById("lastName");
+  const lastNameValue = lastName.value;
+  const error = document.getElementById("lastNameErrorMsg");
+
+  //TODO reset any previous error
+  error.innerHTML = ""; // FIXME I DON'T UNDERSTAND
+
+  //TODO test firstName input value
+  if (expName.test(lastNameValue)) {
+    lastName.value = lastNameValue;
+    error.innerHTML = "";
+
+    //TODO set error message if test fails
+  } else {
+    error.innerHTML = "Please enter valid last name";
+  }
 });
 
 document.getElementById("order").addEventListener("click", ($event) => {
