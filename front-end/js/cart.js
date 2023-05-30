@@ -152,53 +152,141 @@ function updateTotalPrice(quantity, price) {
 const expName = /^[a-zA-Z\s_-]+$/;
 const expEmail =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-const expAdd = /^[a-zA-Z0-9\s,!.'_-]+$/;
+const expAdd = /^[a-zA-Z0-9\s,.'_-]+$/;
+const firstName = document.getElementById("firstName");
+const firstNameError = document.getElementById("firstNameErrorMsg");
+const lastName = document.getElementById("lastName");
+const lastNameError = document.getElementById("lastNameErrorMsg");
+const address = document.getElementById("address");
+const addressError = document.getElementById("addressErrorMsg");
+const city = document.getElementById("city");
+const cityError = document.getElementById("cityErrorMsg");
+const email = document.getElementById("email");
+const emailError = document.getElementById("emailErrorMsg");
 
 //firstName field
 firstName.addEventListener("change", ($event) => {
-  const firstName = document.getElementById("firstName");
   const firstNameValue = firstName.value;
-  const error = document.getElementById("firstNameErrorMsg");
+  firstNameError.innerHTML = "";
 
-  //TODO reset any previous error
-  error.innerHTML = ""; // FIXME I DON'T UNDERSTAND
-
-  //TODO test firstName input value
   if (expName.test(firstNameValue)) {
     firstName.value = firstNameValue;
-    error.innerHTML = "";
-
-    //TODO set error message if test fails
   } else {
-    error.innerHTML = "Please enter valid first name";
+    firstNameError.innerHTML = "Please enter valid first name";
   }
 });
 
 //LastName field
 lastName.addEventListener("change", ($event) => {
-  const lastName = document.getElementById("lastName");
   const lastNameValue = lastName.value;
-  const error = document.getElementById("lastNameErrorMsg");
 
-  //TODO reset any previous error
-  error.innerHTML = ""; // FIXME I DON'T UNDERSTAND
-
-  //TODO test firstName input value
+  lastNameError.innerHTML = "";
   if (expName.test(lastNameValue)) {
     lastName.value = lastNameValue;
-    error.innerHTML = "";
-
-    //TODO set error message if test fails
   } else {
-    error.innerHTML = "Please enter valid last name";
+    lastNameError.innerHTML = "Please enter valid last name";
+  }
+});
+
+//Address field
+address.addEventListener("change", ($event) => {
+  const addressValue = address.value;
+
+  addressError.innerHTML = "";
+  if (expAdd.test(addressValue)) {
+    address.value = addressValue;
+  } else {
+    addressError.innerHTML = "Please enter valid address";
+  }
+});
+
+//city field
+city.addEventListener("change", ($event) => {
+  const cityValue = city.value;
+
+  cityError.innerHTML = "";
+  if (expName.test(cityValue)) {
+    city.value = cityValue;
+  } else {
+    cityError.innerHTML = "Please enter valid city";
+  }
+});
+
+// email field
+email.addEventListener("change", ($event) => {
+  const emailValue = email.value;
+
+  emailError.innerHTML = "";
+  if (expEmail.test(emailValue)) {
+    email.value = emailValue;
+  } else {
+    emailError.innerHTML = "Please enter valid email";
   }
 });
 
 document.getElementById("order").addEventListener("click", ($event) => {
-  const submit = $event.target;
   //TODO when the user click order button check all inputs are validated
-  //TODO fetch API to submit order to back-end (POST)
-  //TODO get orderId from the response
-  //TODO clear out the cart
-  //TODO redirect to the confirmation page sending the orderId in the Url
+  const form = document.getElementsByClassName("cart__order__form__question");
+  $event.preventDefault();
+  if (validateFields()) {
+    //TODO get productIds from local storage using the array map
+    const order = {
+      contact: {
+        firstName: firstName.value,
+        lastName: "Wayne",
+        address: "123 Bat Cave",
+        city: "Gotham",
+        email: "bruce.wayne@gotham.com",
+      },
+      products: ["107fb5b75607497b96722bda5b504926"],
+    };
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(order),
+    };
+    
+    fetch("http://localhost:3000/api/products/order", options)
+      .then((data) => {
+        if (!data.ok) {
+          throw Error(data.status);
+        }
+        return data.json();
+      })
+      .then((result) => {
+        console.log(result.orderId);
+      });
+
+    //TODO get orderId from the response - use array map()
+
+    //TODO clear out cart in localStorage
+    //TODO redirect to the confirmation page sending the orderId in the Url - "js how to redirect in JS"
+  }
 });
+
+function validateFields() {
+  const validated = true;
+  if (!expName.test(firstName.value)) {
+    firstNameError.innerHTML = "Please enter valid firstName";
+    validated = false;
+  }
+  if (!expName.test(lastName.value)) {
+    lastNameError.innerHTML = "Please enter valid lastName";
+    validated = false;
+  }
+  if (!expAdd.test(address.value)) {
+    addressError.innerHTML = "Please enter valid address";
+    validated = false;
+  }
+  if (!expAdd.test(city.value)) {
+    cityError.innerHTML = "Please enter valid city";
+    validated = false;
+  }
+  if (!expEmail.test(email.value)) {
+    emailError.innerHTML = "Please enter valid email";
+    validated = false;
+  }
+  return validated;
+}
