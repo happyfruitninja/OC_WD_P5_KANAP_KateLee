@@ -149,6 +149,7 @@ function updateTotalPrice(quantity, price) {
   console.log(currentPrice);
 }
 
+//set up validation conditions for each user input field
 const expName = /^[a-zA-Z\s_-]+$/;
 const expEmail =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -168,9 +169,10 @@ const emailError = document.getElementById("emailErrorMsg");
 firstName.addEventListener("change", ($event) => {
   const firstNameValue = firstName.value;
   firstNameError.innerHTML = "";
-
+  //test user input against regex for firstName
   if (expName.test(firstNameValue)) {
     firstName.value = firstNameValue;
+    //if test failed - send errorMsg
   } else {
     firstNameError.innerHTML = "Please enter valid first name";
   }
@@ -224,46 +226,57 @@ email.addEventListener("change", ($event) => {
   }
 });
 
+//validate order form
 document.getElementById("order").addEventListener("click", ($event) => {
   //TODO when the user click order button check all inputs are validated
   const form = document.getElementsByClassName("cart__order__form__question");
+  const productId = localStorage.getItem();
   $event.preventDefault();
   if (validateFields()) {
     //TODO get productIds from local storage using the array map
-    const order = {
-      contact: {
-        firstName: firstName.value,
-        lastName: "Wayne",
-        address: "123 Bat Cave",
-        city: "Gotham",
-        email: "bruce.wayne@gotham.com",
-      },
-      products: ["107fb5b75607497b96722bda5b504926"],
-    };
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(order),
-    };
-    
-    fetch("http://localhost:3000/api/products/order", options)
-      .then((data) => {
-        if (!data.ok) {
-          throw Error(data.status);
-        }
-        return data.json();
-      })
-      .then((result) => {
-        console.log(result.orderId);
-      });
-
-    //TODO get orderId from the response - use array map()
-
-    //TODO clear out cart in localStorage
-    //TODO redirect to the confirmation page sending the orderId in the Url - "js how to redirect in JS"
+    const cart = JSON.parse(localStorage.getItem("cart"));
+    const storedId = cart.map(() => {
+      console.log(cart.productId);
+    });
+    return storedId;
   }
+
+  const order = {
+    contact: {
+      firstName: firstName.value,
+      lastName: lastName.value,
+      address: address.value,
+      city: city.value,
+      email: email.value,
+    },
+    products: ["storedId"],
+  };
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(order),
+  };
+
+  fetch("http://localhost:3000/api/products/order", options)
+    .then((data) => {
+      if (!data.ok) {
+        throw Error(data.status);
+      }
+      return data.json();
+    })
+    .then((result) => {
+      console.log(result.orderId);
+    });
+
+  //TODO get orderId from the response - use array map()
+  //const orderId = 
+
+  //TODO clear out cart in localStorage
+  localStorage.clear();
+
+  //TODO redirect to the confirmation page sending the orderId in the Url - "js how to redirect in JS"
 });
 
 function validateFields() {
