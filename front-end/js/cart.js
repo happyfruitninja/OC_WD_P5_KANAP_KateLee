@@ -271,12 +271,14 @@ document.getElementById("order").addEventListener("click", ($event) => {
     });
 
   //TODO get orderId from the response - use array map()
-  //const orderId = 
+  //const orderId =
 
   //TODO clear out cart in localStorage
   localStorage.clear();
 
   //TODO redirect to the confirmation page sending the orderId in the Url - "js how to redirect in JS"
+
+  location.assign("http://localhost:3000/api/products/confirmation");
 });
 
 function validateFields() {
