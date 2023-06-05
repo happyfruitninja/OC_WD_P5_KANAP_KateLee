@@ -217,7 +217,6 @@ city.addEventListener("change", ($event) => {
 // email field
 email.addEventListener("change", ($event) => {
   const emailValue = email.value;
-
   emailError.innerHTML = "";
   if (expEmail.test(emailValue)) {
     email.value = emailValue;
@@ -271,14 +270,18 @@ document.getElementById("order").addEventListener("click", ($event) => {
     });
 
   //TODO get orderId from the response - use array map()
-  //const orderId =
+  const orderId = cart.map(() => {
+    if (storedId === cart.productId);
+    return orderId;
+  });
+  console.log(orderId);
 
   //TODO clear out cart in localStorage
   localStorage.clear();
 
-  //TODO redirect to the confirmation page sending the orderId in the Url - "js how to redirect in JS"
-
-  location.assign("http://localhost:3000/api/products/confirmation");
+  //TODO redirect to the confirmation page sending the orderId in the Url
+  location.assign(
+    "http://localhost:3000/api/products/confirmation.html?id=${orderId}");
 });
 
 function validateFields() {

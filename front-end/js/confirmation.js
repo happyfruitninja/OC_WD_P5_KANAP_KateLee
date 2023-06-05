@@ -1,18 +1,8 @@
-fetch("http://localhost:3000/api/products/order/confirmation")
-  .then((data) => {
-    return data.json();
-  })
-  .then((order) => {
-    insertOrder(order);
-  });
+// TODO grabUrl orderId from the url 
+const queryString = location.search;
+const urlParams = new URLSearchParams(queryString);
+const orderId = urlParams.get(result.orderId);
 
-function insertOrder(order) {
-  const found = order.find((order) => {
-    return orderId === order.Id;
-  });
-  console.log(found);
+//TODO insert orderId into page
 
-  const orderId = document.getElementsByClassName("confirmation");
-  orderId = found.orderId;
-  orderId.innerHTML = `<p>Order confirmed! <br>Your order number is: <span id="orderId">${order.id}</span></p>`;
-}
+ const confNo = document.getElementById("orderId").innerHTML(`${orderId}`);
