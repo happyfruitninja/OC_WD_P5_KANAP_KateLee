@@ -48,7 +48,7 @@ cartButton.addEventListener("click", () => {
   const selectedQuantity = parseInt(quantityElement.value);
   console.log(quantityElement.value);
   console.log(productId);
-  cartButton.innerHTML = "Added to cart";
+ 
 
   //retrieve cart from local storage(cart) - use JSON.parse to convert string from local storage to JS object(in this case an array)
   // if cart is undefined, set it to an empty array
@@ -78,6 +78,7 @@ cartButton.addEventListener("click", () => {
   // const innerHTMl element to inject selected product detail touse ${} value?
 
   window.localStorage.setItem("cart", JSON.stringify(cart));
+  alert("cart item added successfully");
 });
 //NOTE change quantity string to number before storing into local storage - contains productId, color and quantity selected
 

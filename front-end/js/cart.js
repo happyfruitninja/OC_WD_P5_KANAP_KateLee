@@ -227,61 +227,50 @@ email.addEventListener("change", ($event) => {
 
 //validate order form
 document.getElementById("order").addEventListener("click", ($event) => {
-  //TODO when the user click order button check all inputs are validated
-  const form = document.getElementsByClassName("cart__order__form__question");
-  const productId = localStorage.getItem();
   $event.preventDefault();
   if (validateFields()) {
-    //TODO get productIds from local storage using the array map
+    // get productIds from local storage using the array map
     const cart = JSON.parse(localStorage.getItem("cart"));
-    const storedId = cart.map(() => {
-      console.log(cart.productId);
+    const productIds = cart.map((cartItem) => {
+      // finish this but rename variable to "products" which will hold an array of product ids
+      return cartItem.productId;
     });
-    return storedId;
+    //products is an array of product ids from the user's cart stored in local storage and you can use the "product" array created above
+    const order = {
+      contact: {
+        firstName: firstName.value,
+        lastName: lastName.value,
+        address: address.value,
+        city: city.value,
+        email: email.value,
+      },
+      products: productIds,
+    };
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(order),
+    };
+
+    fetch("http://localhost:3000/api/products/order", options)
+      .then((data) => {
+        if (!data.ok) {
+          throw Error(data.status);
+        }
+        return data.json();
+      })
+      .then((result) => {
+        console.log(result.orderId);
+
+        //clear out cart in localStorage
+        localStorage.clear();
+
+        //redirect to the confirmation page sending the orderId in the Url
+        location.assign(`./confirmation.html?id=${result.orderId}`);
+      });
   }
-
-  const order = {
-    contact: {
-      firstName: firstName.value,
-      lastName: lastName.value,
-      address: address.value,
-      city: city.value,
-      email: email.value,
-    },
-    products: ["storedId"],
-  };
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(order),
-  };
-
-  fetch("http://localhost:3000/api/products/order", options)
-    .then((data) => {
-      if (!data.ok) {
-        throw Error(data.status);
-      }
-      return data.json();
-    })
-    .then((result) => {
-      console.log(result.orderId);
-    });
-
-  //TODO get orderId from the response - use array map()
-  const orderId = cart.map(() => {
-    if (storedId === cart.productId);
-    return orderId;
-  });
-  console.log(orderId);
-
-  //TODO clear out cart in localStorage
-  localStorage.clear();
-
-  //TODO redirect to the confirmation page sending the orderId in the Url
-  location.assign(
-    "http://localhost:3000/api/products/confirmation.html?id=${orderId}");
 });
 
 function validateFields() {
