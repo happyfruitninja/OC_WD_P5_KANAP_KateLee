@@ -1,6 +1,4 @@
-//insert cartItem cards into the page using loop (through the cart array). keep in mind each item has productId and I need to fetch to grab product details such as description and name (use fetch API from backend) Similar to milestone 3
-//NOTE total quantity and total price (TIP: as you are iterating through -> update the running totals on the page not on localstorage/backend)
-
+// fetch all product objects
 fetch("http://localhost:3000/api/products/")
   .then((data) => {
     return data.json();
@@ -11,6 +9,7 @@ fetch("http://localhost:3000/api/products/")
 
 //connect html to the items in cart
 const sectionCartItem = document.getElementById("cart__items");
+//insert cartItem cards into the page using loop (through the cart array).
 function insertCart(products) {
   let cartItemCards = "";
   let cart = JSON.parse(window.localStorage.getItem("cart")) || [];
@@ -25,6 +24,7 @@ function insertCart(products) {
     cartArticle.classList.add("cart__item");
     cartArticle.dataset.id = found._id;
     cartArticle.dataset.color = cartItem.color;
+    //create a template literal of cart item article
     cartArticle.innerHTML = `
             <div class="cart__item__img">
               <img src="${found.imageUrl}" alt="${found.altTxt}">
@@ -54,7 +54,7 @@ function insertCart(products) {
       const clickedElement = $event.target;
       const newQuantity = parseInt(clickedElement.value);
 
-      //FIXME need to get dataset.color from closest article and ask to getCartItem. Do this first and then delete item
+      //need to get dataset.color from closest article and ask to getCartItem
       const productId = clickedElement.closest("article").dataset.id;
       const productColor = clickedElement.closest("article").dataset.color;
       const matchingItem = getCartItem(cart, productId, productColor);
@@ -68,7 +68,7 @@ function insertCart(products) {
       updateTotalQuantity(changedQuantity);
       cartItemToChange.quantity = newQuantity;
 
-      //update the total price - create updateTotalPrice function same as we create totalQuantity (highlight -> refactor -> global)
+      //update the total price
       updateTotalPrice(changedQuantity, found.price);
       localStorage.setItem("cart", JSON.stringify(cart));
     });
@@ -103,24 +103,18 @@ function insertCart(products) {
       //update totals using the functions already present
       updateTotalQuantity(-quantityDeleted);
 
-      //FIXME update total price when an item is deleted
-
+      //update total price when an item is deleted
       updateTotalPrice(quantityDeleted, -found.price);
     });
 
     sectionCartItem.appendChild(cartArticle);
 
-    //update total price and total quantity for current cartItem - we need a number to do arithmatic calculation ie) const selectedQuantity = parseInt(quantityElement.value);
-
-    //  convert string quantity in cartItem into number
-    // get the current total off the page + partInt the number string
-    //  update the total number on the page with current cartItem quantity
-    //get span element with #totalQuantity
     updateTotalQuantity(cartItem.quantity);
     updateTotalPrice(cartItem.quantity, found.price);
   }
 }
 
+//function to get products that match 3 properties of cartItems against the properties of objects
 function getCartItem(cart, productId, productColor) {
   console.log(productId);
   console.log(productColor);
@@ -131,6 +125,8 @@ function getCartItem(cart, productId, productColor) {
   return found;
 }
 
+//funtion to update total quantity
+//NOTE total quantity and total price -> update the running totals on the page not on localstorage/backend
 function updateTotalQuantity(quantity) {
   let currentQuantity =
     parseInt(document.getElementById("totalQuantity").innerText) || 0;
@@ -140,6 +136,7 @@ function updateTotalQuantity(quantity) {
   console.log(totalQuantity);
 }
 
+//function to update total price
 function updateTotalPrice(quantity, price) {
   let currentPrice =
     parseInt(document.getElementById("totalPrice").innerText) || 0;
@@ -165,6 +162,7 @@ const cityError = document.getElementById("cityErrorMsg");
 const email = document.getElementById("email");
 const emailError = document.getElementById("emailErrorMsg");
 
+//input is tested against the conditions for each fields
 //firstName field
 firstName.addEventListener("change", ($event) => {
   const firstNameValue = firstName.value;
@@ -235,6 +233,7 @@ document.getElementById("order").addEventListener("click", ($event) => {
       // finish this but rename variable to "products" which will hold an array of product ids
       return cartItem.productId;
     });
+
     //products is an array of product ids from the user's cart stored in local storage and you can use the "product" array created above
     const order = {
       contact: {
@@ -254,6 +253,7 @@ document.getElementById("order").addEventListener("click", ($event) => {
       body: JSON.stringify(order),
     };
 
+    //fetch orderId and redirect user to confirmation page
     fetch("http://localhost:3000/api/products/order", options)
       .then((data) => {
         if (!data.ok) {
@@ -273,6 +273,7 @@ document.getElementById("order").addEventListener("click", ($event) => {
   }
 });
 
+//function to validate all user inputs once user fills out all input fields
 function validateFields() {
   const validated = true;
   if (!expName.test(firstName.value)) {

@@ -2,6 +2,7 @@ const queryString = location.search;
 const urlParams = new URLSearchParams(queryString);
 const productId = urlParams.get("id");
 
+//fetch productId of selected item
 fetch(`http://localhost:3000/api/products/${productId}`)
   .then((data) => {
     return data.json();
@@ -10,7 +11,7 @@ fetch(`http://localhost:3000/api/products/${productId}`)
     insertProduct(product);
   });
 
-// connect html to the product details
+// use productId to find product details and to connect to html
 function insertProduct(product) {
   //  image
   const productImage = document.querySelector(".item__img");
@@ -48,10 +49,9 @@ cartButton.addEventListener("click", () => {
   const selectedQuantity = parseInt(quantityElement.value);
   console.log(quantityElement.value);
   console.log(productId);
- 
 
-  //retrieve cart from local storage(cart) - use JSON.parse to convert string from local storage to JS object(in this case an array)
-  // if cart is undefined, set it to an empty array
+  //retrieve cart from local storage
+  //if cart is undefined, set it to an empty array
   let cart = JSON.parse(window.localStorage.getItem("cart")) || [];
   console.log(cart);
 
@@ -72,18 +72,7 @@ cartButton.addEventListener("click", () => {
     console.log(cart);
   }
 
-  //save cart to local storage - use JSON.stringify to convert object back to string
-  //const quantityElement = document.getElementById("quantity");
-
-  // const innerHTMl element to inject selected product detail touse ${} value?
-
+  // setItem triggers data to be stored in localStorage
   window.localStorage.setItem("cart", JSON.stringify(cart));
   alert("cart item added successfully");
 });
-//NOTE change quantity string to number before storing into local storage - contains productId, color and quantity selected
-
-//example - "[]" <-this is json representation of an empty array
-//example - '[{"productId":"9345678", "color":"yellow", "quantity":2}]' <- jason with an object, this will be the result after call cartArray function
-//use this function JSON.stringify(cart);
-
-//

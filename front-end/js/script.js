@@ -1,3 +1,4 @@
+//fetch products and converted to JSON
 fetch("http://localhost:3000/api/products/")
   .then((data) => {
     return data.json();
@@ -6,9 +7,10 @@ fetch("http://localhost:3000/api/products/")
     insertProducts(products);
   });
 
+//create a function that provides a template literal
 const sectionElement = document.getElementById("items");
 function insertProducts(products) {
-  let productCards = ""; 
+  let productCards = "";
   for (let product of products) {
     console.log(product);
     const productElement = document.createElement("article");
