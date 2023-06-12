@@ -163,24 +163,54 @@ const email = document.getElementById("email");
 const emailError = document.getElementById("emailErrorMsg");
 
 //create a reusable help functions to reduce repeating codes
-function addEventListenerForContactInfoField(inputElement, messageElement, message, regEx){
+function addEventListenerForContactInfoField(
+  inputElement,
+  messageElement,
+  message,
+  regEx
+) {
   inputElement.addEventListener("change", ($event) => {
     const contactInfoValue = $event.target.value;
-    messageElement.innerHTML="";
+    messageElement.innerHTML = "";
     //test user input against regex for firstname
-    if(regEx.test(contactInfoValue)){
+    if (regEx.test(contactInfoValue)) {
       inputElement.value = contactInfoValue;
       //if test failed - send errorMsg
     } else {
-      messageElement.innerHTML= message;
+      messageElement.innerHTML = message;
     }
   });
 }
-addEventListenerForContactInfoField(firstName, firstNameError, "Please enter valid first name!", expName);
-addEventListenerForContactInfoField(lastName, lastNameError, "Please enter valid last name1", expName);
-addEventListenerForContactInfoField(address, addressError, "Please enter valid address!", expAdd);
-addEventListenerForContactInfoField(city, cityError, "Please enter valid city!", expName);
-addEventListenerForContactInfoField(email, emailError, "Please enter valid email!", expEmail);
+addEventListenerForContactInfoField(
+  firstName,
+  firstNameError,
+  "Please enter valid first name!",
+  expName
+);
+addEventListenerForContactInfoField(
+  lastName,
+  lastNameError,
+  "Please enter valid last name1",
+  expName
+);
+addEventListenerForContactInfoField(
+  address,
+  addressError,
+  "Please enter valid address!",
+  expAdd
+);
+addEventListenerForContactInfoField(
+  city,
+  cityError,
+  "Please enter valid city!",
+  expName
+);
+addEventListenerForContactInfoField(
+  email,
+  emailError,
+  "Please enter valid email!",
+  expEmail
+);
 
 //validate order form
 document.getElementById("order").addEventListener("click", ($event) => {
