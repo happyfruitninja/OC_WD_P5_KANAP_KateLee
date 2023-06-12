@@ -162,66 +162,25 @@ const cityError = document.getElementById("cityErrorMsg");
 const email = document.getElementById("email");
 const emailError = document.getElementById("emailErrorMsg");
 
-//input is tested against the conditions for each fields
-//firstName field
-firstName.addEventListener("change", ($event) => {
-  const firstNameValue = firstName.value;
-  firstNameError.innerHTML = "";
-  //test user input against regex for firstName
-  if (expName.test(firstNameValue)) {
-    firstName.value = firstNameValue;
-    //if test failed - send errorMsg
-  } else {
-    firstNameError.innerHTML = "Please enter valid first name";
-  }
-});
-
-//LastName field
-lastName.addEventListener("change", ($event) => {
-  const lastNameValue = lastName.value;
-
-  lastNameError.innerHTML = "";
-  if (expName.test(lastNameValue)) {
-    lastName.value = lastNameValue;
-  } else {
-    lastNameError.innerHTML = "Please enter valid last name";
-  }
-});
-
-//Address field
-address.addEventListener("change", ($event) => {
-  const addressValue = address.value;
-
-  addressError.innerHTML = "";
-  if (expAdd.test(addressValue)) {
-    address.value = addressValue;
-  } else {
-    addressError.innerHTML = "Please enter valid address";
-  }
-});
-
-//city field
-city.addEventListener("change", ($event) => {
-  const cityValue = city.value;
-
-  cityError.innerHTML = "";
-  if (expName.test(cityValue)) {
-    city.value = cityValue;
-  } else {
-    cityError.innerHTML = "Please enter valid city";
-  }
-});
-
-// email field
-email.addEventListener("change", ($event) => {
-  const emailValue = email.value;
-  emailError.innerHTML = "";
-  if (expEmail.test(emailValue)) {
-    email.value = emailValue;
-  } else {
-    emailError.innerHTML = "Please enter valid email";
-  }
-});
+//create a reusable help functions to reduce repeating codes
+function addEventListenerForContactInfoField(inputElement, messageElement, message, regEx){
+  inputElement.addEventListener("change", ($event) => {
+    const contactInfoValue = $event.target.value;
+    messageElement.innerHTML="";
+    //test user input against regex for firstname
+    if(regEx.test(contactInfoValue)){
+      inputElement.value = contactInfoValue;
+      //if test failed - send errorMsg
+    } else {
+      messageElement.innerHTML= message;
+    }
+  });
+}
+addEventListenerForContactInfoField(firstName, firstNameError, "Please enter valid first name!", expName);
+addEventListenerForContactInfoField(lastName, lastNameError, "Please enter valid last name1", expName);
+addEventListenerForContactInfoField(address, addressError, "Please enter valid address!", expAdd);
+addEventListenerForContactInfoField(city, cityError, "Please enter valid city!", expName);
+addEventListenerForContactInfoField(email, emailError, "Please enter valid email!", expEmail);
 
 //validate order form
 document.getElementById("order").addEventListener("click", ($event) => {

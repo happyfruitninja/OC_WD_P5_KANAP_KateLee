@@ -74,5 +74,5 @@ cartButton.addEventListener("click", () => {
 
   // setItem triggers data to be stored in localStorage
   window.localStorage.setItem("cart", JSON.stringify(cart));
-  alert("cart item added successfully");
+  alert("Cart item added successfully");
 });
